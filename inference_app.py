@@ -1110,7 +1110,7 @@ class SignLanguageApp:
         self.model, self.le, self.scaler = load_model_and_classes()
         self.current_model_name = 'best_model.h5' if self.model else None
         self.cap = None
-        
+
         # Estilos
         self.button_style = {
             "bg": "#1E3A8A",
@@ -1120,40 +1120,73 @@ class SignLanguageApp:
             "relief": "raised",
             "activebackground": "#3B82F6"
         }
-        
+
         # Layout
         self.main_frame = tk.Frame(root, bg="#000000")
         self.main_frame.pack(padx=10, pady=10)
-        
+
         # Canvas para video
         self.canvas = tk.Canvas(self.main_frame, width=640, height=480, bg="#000000", highlightthickness=2, highlightbackground="#1E3A8A")
-        self.canvas.grid(row=0, column=0, columnspan=3, pady=10)
-        
-        # Área de texto
+        self.canvas.grid(row=0, column=0, columnspan=2, pady=10)
+
+        # Área de texto para mensajes del sistema
         self.text_area = tk.Text(self.main_frame, height=10, width=80, bg="#000000", fg="#FFFFFF", font=("Arial", 10), bd=2, relief="sunken")
-        self.text_area.grid(row=1, column=0, columnspan=3, pady=10)
+        self.text_area.grid(row=1, column=0, columnspan=2, pady=10)
         self.text_area.insert(tk.END, "Bienvenido al sistema de reconocimiento de lenguaje de señas.\n")
         if self.current_model_name:
             self.text_area.insert(tk.END, f"Modelo actual: {self.current_model_name}\n")
-        
+
+        # Área de texto para el texto generado por las señas
+        self.generated_text_label = tk.Label(self.main_frame, text="Texto Generado por Señas:", bg="#000000", fg="#FFFFFF", font=("Arial", 12, "bold"))
+        self.generated_text_label.grid(row=2, column=0, sticky="w", pady=5)
+
+        self.generated_text_area = tk.Text(self.main_frame, height=3, width=40, bg="#000000", fg="#FFFFFF", font=("Arial", 10), bd=2, relief="sunken")
+        self.generated_text_area.grid(row=3, column=0, pady=5, sticky="w")
+        self.generated_text_area.insert(tk.END, "")
+        self.generated_text_area.config(state='disabled')  # Solo lectura
+
+        # Área de texto para escritura manual del usuario
+        self.user_text_label = tk.Label(self.main_frame, text="Texto Escrito por el Usuario:", bg="#000000", fg="#FFFFFF", font=("Arial", 12, "bold"))
+        self.user_text_label.grid(row=2, column=1, sticky="w", pady=5)
+
+        self.user_text_area = tk.Text(self.main_frame, height=3, width=40, bg="#000000", fg="#FFFFFF", font=("Arial", 10), bd=2, relief="sunken")
+        self.user_text_area.grid(row=3, column=1, pady=5, sticky="w")
+        self.user_text_area.insert(tk.END, "")
+
         # Botones
         self.btn_start = tk.Button(self.main_frame, text="Iniciar Inferencia", command=self.start_inference, **self.button_style)
-        self.btn_start.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
-        
+        self.btn_start.grid(row=4, column=0, padx=5, pady=5, sticky="ew")
+
         self.btn_stop = tk.Button(self.main_frame, text="Detener Inferencia", command=self.stop_inference, **self.button_style)
-        self.btn_stop.grid(row=2, column=1, padx=5, pady=5, sticky="ew")
-        
+        self.btn_stop.grid(row=4, column=1, padx=5, pady=5, sticky="ew")
+
+        self.btn_clear_generated = tk.Button(self.main_frame, text="Limpiar Texto Generado", command=self.clear_generated_text, **self.button_style)
+        self.btn_clear_generated.grid(row=5, column=0, padx=5, pady=5, sticky="ew")
+
+        self.btn_clear_user = tk.Button(self.main_frame, text="Limpiar Texto Usuario", command=self.clear_user_text, **self.button_style)
+        self.btn_clear_user.grid(row=5, column=1, padx=5, pady=5, sticky="ew")
+
         self.btn_add_class = tk.Button(self.main_frame, text="Añadir Clase", command=self.add_class, **self.button_style)
-        self.btn_add_class.grid(row=2, column=2, padx=5, pady=5, sticky="ew")
-        
+        self.btn_add_class.grid(row=6, column=0, padx=5, pady=5, sticky="ew")
+
         self.btn_validate = tk.Button(self.main_frame, text="Validar Modelo", command=self.validate_model, **self.button_style)
-        self.btn_validate.grid(row=3, column=0, padx=5, pady=5, sticky="ew")
-        
+        self.btn_validate.grid(row=6, column=1, padx=5, pady=5, sticky="ew")
+
         self.btn_list_models = tk.Button(self.main_frame, text="Listar Modelos", command=self.list_models, **self.button_style)
-        self.btn_list_models.grid(row=3, column=1, padx=5, pady=5, sticky="ew")
-        
+        self.btn_list_models.grid(row=7, column=0, padx=5, pady=5, sticky="ew")
+
         self.btn_exit = tk.Button(self.main_frame, text="Salir", command=self.exit_app, **self.button_style)
-        self.btn_exit.grid(row=3, column=2, padx=5, pady=5, sticky="ew")
+        self.btn_exit.grid(row=7, column=1, padx=5, pady=5, sticky="ew")
+
+    def clear_generated_text(self):
+        """Limpia el área de texto generado por las señas."""
+        self.generated_text_area.config(state='normal')
+        self.generated_text_area.delete(1.0, tk.END)
+        self.generated_text_area.config(state='disabled')
+
+    def clear_user_text(self):
+        """Limpia el área de texto escrito por el usuario."""
+        self.user_text_area.delete(1.0, tk.END)
 
     def start_inference(self):
         if not self.model:
@@ -1163,12 +1196,11 @@ class SignLanguageApp:
         if not self.running:
             try:
                 self.running = True
-                self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # Usar DSHOW para mejor compatibilidad
+                self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
                 if not self.cap.isOpened():
                     self.text_area.insert(tk.END, "Error: No se puede acceder a la cámara. Verifica que no esté en uso.\n")
                     self.running = False
                     return
-                # Verificar compatibilidad del modelo
                 output_shape = self.model.output_shape[-1]
                 num_classes = len(self.le.classes_)
                 if output_shape != num_classes:
@@ -1195,45 +1227,120 @@ class SignLanguageApp:
 
     def inference_loop(self):
         try:
+            last_sign = None
+            sign_start_time = None
+            no_sign_start_time = None
+            last_inserted_pos = None  # Para rastrear la posición exacta del último carácter insertado
+            MIN_CONFIDENCE = 0.7  # Umbral mínimo de confianza
+
             while self.running and self.cap and self.cap.isOpened():
                 ret, frame = self.cap.read()
                 if not ret:
                     self.text_area.insert(tk.END, "Error: No se pudo leer el frame.\n")
                     break
-                
+
                 landmarks, valid = extract_landmarks(frame)
+                current_time = time.time()
+
                 if valid:
                     if self.scaler is not None:
                         z_indices = np.arange(2, landmarks.shape[0], 3)
                         landmarks_z = landmarks[z_indices].reshape(1, -1)
                         landmarks[z_indices] = self.scaler.transform(landmarks_z).flatten()
-                    
+
                     prediction = self.model.predict(np.expand_dims(landmarks, axis=0), verbose=0)
-                    sign_class = self.le.inverse_transform([np.argmax(prediction)])[0]
                     confidence = np.max(prediction)
+                    if confidence >= MIN_CONFIDENCE:
+                        sign_class = self.le.inverse_transform([np.argmax(prediction)])[0]
+                    else:
+                        sign_class = None
+                else:
+                    sign_class = None
+
+                # Mostrar información en el frame
+                if sign_class:
                     cv2.putText(frame, f'Sign: {sign_class} ({confidence:.2f})', (10, 30),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                    
-                    results = hands.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                    if results.multi_hand_landmarks:
-                        for hand_landmarks in results.multi_hand_landmarks:
-                            mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                 else:
                     cv2.putText(frame, "No se detecta mano", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                
+
+                # Dibujar landmarks
+                results = hands.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                if results.multi_hand_landmarks:
+                    for hand_landmarks in results.multi_hand_landmarks:
+                        mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+
+                # Lógica de detección de tiempo
+                self.generated_text_area.config(state='normal')  # Habilitar para escritura/eliminación
+                if sign_class:
+                    if sign_class == last_sign:
+                        # Misma seña
+                        if sign_start_time is None:
+                            sign_start_time = current_time
+                    else:
+                        # Nueva seña
+                        last_sign = sign_class
+                        sign_start_time = current_time
+                        last_inserted_pos = None  # Reiniciar para nueva seña
+                        self.text_area.insert(tk.END, f"Nueva seña detectada: {sign_class}\n")
+                        self.text_area.see(tk.END)
+
+                    no_sign_start_time = None
+
+                    time_elapsed = current_time - sign_start_time
+                    if time_elapsed >= 10:  # Mayúscula tras 10 segundos
+                        if last_inserted_pos is not None:
+                            # Eliminar la minúscula (1 carácter)
+                            try:
+                                self.generated_text_area.delete(f"{last_inserted_pos}", f"{last_inserted_pos}+1c")
+                                self.text_area.insert(tk.END, f"Eliminada minúscula en posición {last_inserted_pos}\n")
+                            except Exception as e:
+                                self.text_area.insert(tk.END, f"Error al eliminar minúscula: {str(e)}\n")
+                            self.text_area.see(tk.END)
+                        # Insertar mayúscula
+                        insert_pos = self.generated_text_area.index(tk.END)
+                        self.generated_text_area.insert(tk.END, sign_class.upper())
+                        last_inserted_pos = insert_pos  # Guardar posición antes de la mayúscula
+                        sign_start_time = current_time
+                        self.text_area.insert(tk.END, f"Insertada mayúscula {sign_class.upper()} en posición {last_inserted_pos}\n")
+                        self.text_area.see(tk.END)
+                    elif time_elapsed >= 5 and last_inserted_pos is None:  # Minúscula tras 5 segundos
+                        # Insertar minúscula
+                        insert_pos = self.generated_text_area.index(tk.END)
+                        self.generated_text_area.insert(tk.END, sign_class.lower())
+                        last_inserted_pos = insert_pos  # Guardar posición antes de la minúscula
+                        sign_start_time = current_time - 5  # Mantener ventana para 10 segundos
+                        self.text_area.insert(tk.END, f"Insertada minúscula {sign_class.lower()} en posición {last_inserted_pos}\n")
+                        self.text_area.see(tk.END)
+                else:
+                    if no_sign_start_time is None:
+                        no_sign_start_time = current_time
+                    last_sign = None
+                    sign_start_time = None
+                    last_inserted_pos = None
+
+                    if no_sign_start_time and (current_time - no_sign_start_time) >= 10:
+                        self.generated_text_area.insert(tk.END, " ")
+                        no_sign_start_time = current_time
+                        self.text_area.insert(tk.END, "Insertado espacio\n")
+                        self.text_area.see(tk.END)
+
+                self.generated_text_area.config(state='disabled')  # Deshabilitar tras escritura/eliminación
+
+                # Actualizar canvas
                 frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 img = Image.fromarray(frame_rgb)
                 img = img.resize((640, 480), Image.Resampling.LANCZOS)
                 imgtk = ImageTk.PhotoImage(image=img)
                 self.canvas.imgtk = imgtk
                 self.canvas.create_image(0, 0, anchor=tk.NW, image=imgtk)
-                
+
                 self.root.update()
-        
+
         except Exception as e:
             self.text_area.insert(tk.END, f"Error en inferencia: {str(e)}\n")
             self.text_area.see(tk.END)
-        
+
         if self.cap:
             self.cap.release()
             self.cap = None
@@ -1250,13 +1357,12 @@ class SignLanguageApp:
             return
         class_name = simpledialog.askstring("Input", "Nombre de la nueva clase:", parent=self.root)
         if class_name:
-            # Verificar si la clase existía antes de capturar
             pre_exists = os.path.exists(os.path.join(DATA_DIR, f"{class_name}_landmarks.npy"))
             new_landmarks = capture_new_class_data(class_name, num_images=100, scaler=self.scaler, text_area=self.text_area)
             if new_landmarks.size > 0:
                 self.model, self.le = incremental_training(
                     self.model, self.le, class_name, new_landmarks, self.scaler, self.text_area,
-                    is_new_data=not pre_exists  # is_new_data=True si la clase no existía antes
+                    is_new_data=not pre_exists
                 )
                 self.current_model_name = os.path.basename(get_next_model_name())
                 self.text_area.insert(tk.END, f"Modelo actualizado con la nueva clase '{class_name}'.\n")
@@ -1275,22 +1381,22 @@ class SignLanguageApp:
             self.text_area.insert(tk.END, "No se encontraron modelos en el directorio.\n")
             self.text_area.see(tk.END)
             return
-        
+
         model_window = tk.Toplevel(self.root)
         model_window.title("Seleccionar Modelo")
         model_window.configure(bg="#000000")
         model_window.geometry("400x300")
-        
+
         tk.Label(model_window, text="Modelos disponibles:", bg="#000000", fg="#FFFFFF", font=("Arial", 12, "bold")).pack(pady=10)
-        
+
         model_listbox = tk.Listbox(model_window, bg="#000000", fg="#FFFFFF", font=("Arial", 10), selectbackground="#1E3A8A")
         model_listbox.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
-        
+
         for model_path in models:
             model_name = os.path.basename(model_path)
             mod_time = datetime.fromtimestamp(os.path.getmtime(model_path)).strftime('%Y-%m-%d %H:%M:%S')
             model_listbox.insert(tk.END, f"{model_name} (Modificado: {mod_time})")
-        
+
         def select_model():
             selection = model_listbox.curselection()
             if selection:
@@ -1304,7 +1410,7 @@ class SignLanguageApp:
                     self.text_area.insert(tk.END, f"Error al cargar el modelo: {selected_model}\n")
                     self.text_area.see(tk.END)
             model_window.destroy()
-        
+
         tk.Button(model_window, text="Seleccionar", command=select_model, **self.button_style).pack(pady=5)
         tk.Button(model_window, text="Cancelar", command=model_window.destroy, **self.button_style).pack(pady=5)
 
