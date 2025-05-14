@@ -1,0 +1,182 @@
+pip install pyinstaller tensorflow opencv-python mediapipe numpy scikt-learn pillow tkinter
+pyinstaller --versión
+
+pyinstaller --onedir ^
+  --add-data "sign_data;sign_data" ^
+  --add-data "best_model.h5;." ^
+  --add-data "best_model_a.h5;." ^
+  --add-data "classes.npy;." ^
+  --add-data "scaler.pkl;." ^
+  --hidden-import tensorflow ^
+  --hidden-import mediapipe ^
+  --hidden-import sklearn.preprocessing ^
+  --hidden-import PIL ^
+  --windowed ^
+  --icon=app.ico ^
+  --name KingSense ^
+  inference_app.py
+
+pyinstaller --onedir --add-data "sign_data;sign_data" --add-data "best_model.h5;." --add-data "best_modela.h5;." --add-data "best_modelb.h5;." --add-data "classes.npy;." --add-data "scaler.pkl;." --hidden-import tensorflow --hidden-import mediapipe --hidden-import sklearn.preprocessing --hidden-import PIL --windowed --icon=app.ico --name KingSense inference_app.py
+
+
+#----Aveces no incluye archivos binarios automaticamentes de las librerías que incluyes y eso tendrás que incluirlos manualmente al convertir a .exe
+
+
+pyinstaller --onedir ^
+  --add-data "sign_data;sign_data" ^
+  --add-data "best_model.h5;." ^
+  --add-data "best_model_a.h5;." ^
+  --add-data "classes.npy;." ^
+  --add-data "scaler.pkl;." ^
+  --add-data "C:\Users\cfppu\PycharmProjects\app_detection_sign_alphabet\venv\Lib\site-packages\mediapipe\modules;mediapipe\modules" ^
+  --hidden-import tensorflow ^
+  --hidden-import mediapipe ^
+  --hidden-import sklearn.preprocessing ^
+  --hidden-import PIL ^
+  --windowed ^
+  --name KingSense ^
+  inference_app.py
+
+
+
+pyinstaller --onedir --add-data "sign_data;sign_data" --add-data "best_model.h5;." --add-data "best_modela.h5;." --add-data "best_modelb.h5;." --add-data "classes.npy;." --add-data "scaler.pkl;." --add-data "C:\Users\cfppu\PycharmProjects\app_detection_sign_alphabet\.venv\Lib\site-packages\mediapipe\modules;mediapipe\modules" --hidden-import tensorflow --hidden-import mediapipe --hidden-import sklearn.preprocessing --hidden-import PIL --windowed --name KingSense inference_app.py
+
+pyinstaller --onedir --add-data "sign_data;sign_data" --add-data "best_model.h5;." --add-data "classes.npy;." --add-data "scaler.pkl;." --add-data "C:\Users\cfppu\PycharmProjects\app_detection_sign_alphabet\.venv\Lib\site-packages\mediapipe\modules;mediapipe\modules" --hidden-import tensorflow --hidden-import mediapipe --hidden-import sklearn.preprocessing --hidden-import PIL --windowed --name KingSense inference_app.py
+
+
+& C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller --onedir --add-data "sign_data;sign_data" --add-data "best_model.h5;." --add-data "best_model_a.h5;." --add-data "classes.npy;." --add-data "scaler.pkl;." --add-data "C:\Users\cfppu\AppData\Local\Programs\Python\Python310\Lib\site-packages\mediapipe\modules" --hidden-import tensorflow --hidden-import mediapipe --hidden-import sklearn.preprocessing --hidden-import PIL --windowed --name KingSense inference_app.py
+
+& C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller --onedir --add-data=sign_data:sign_data --add-data=best_model.h5:. --add-data=classes.npy:. --add-data=scaler.pkl:. --add-data="C:\Users\cfppu\AppData\Local\Programs\Python\Python310\Lib\site-packages\mediapipe\modules:mediapipe\modules" --hidden-import=tensorflow --hidden-import=mediapipe --hidden-import=sklearn.preprocessing --hidden-import=PIL --windowed --name=KingSense inference_app.py
+
+
+& C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller ^
+--onefile ^
+--add-data=sign_data;sign_data ^
+--add-data=best_model.h5;. ^
+--add-data=classes.npy;. ^
+--add-data=scaler.pkl;. ^
+--add-data="C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;mediapipe/modules" ^
+--hidden-import=tensorflow ^
+--hidden-import=mediapipe ^
+--hidden-import=sklearn.preprocessing ^
+--hidden-import=PIL ^
+--windowed ^
+--name=KingSense ^
+inference_app.py
+
+& C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller --onefile --add-data=sign_data;sign_data --add-data=best_model.h5;. --add-data=classes.npy;. --add-data=scaler.pkl;. --add-data="C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;mediapipe/modules" --hidden-import=tensorflow --hidden-import=mediapipe --hidden-import=sklearn.preprocessing --hidden-import=PIL --windowed --name=KingSense inference_app.py
+
+& C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller --onefile --add-data=sign_data:sign_data --add-data=best_model.h5:. --add-data=classes.npy:. --add-data=scaler.pkl:. --add-data="C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules" --hidden-import=tensorflow --hidden-import=mediapipe --hidden-import=sklearn.preprocessing --hidden-import=PIL --windowed --name=KingSense inference_app.py
+
+PS C:\Users\cfppu\OneDrive\Escritorio\proyecto_final_version_2_mediapipe_cnn_svm_con_icono> & C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller --onefile --add-data=sign_data:sign_data --add-data=best_model.h5:. --add-data=classes.npy:. --add-data=scaler.pkl:. --add-data="C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules" --hidden-import=tensorflow --hidden-import=mediapipe --hidden-import=sklearn.preprocessing --hidden-import=PIL --windowed --name=KingSense inference_app.py
+usage: pyinstaller [-h] [-v] [-D] [-F] [--specpath DIR] [-n NAME] [--contents-directory CONTENTS_DIRECTORY]
+                   [--add-data SOURCE:DEST] [--add-binary SOURCE:DEST] [-p DIR] [--hidden-import MODULENAME]
+                   [--collect-submodules MODULENAME] [--collect-data MODULENAME] [--collect-binaries MODULENAME]
+                   [--collect-all MODULENAME] [--copy-metadata PACKAGENAME] [--recursive-copy-metadata PACKAGENAME]
+                   [--additional-hooks-dir HOOKSPATH] [--runtime-hook RUNTIME_HOOKS] [--exclude-module EXCLUDES]
+                   [--splash IMAGE_FILE] [-d {all,imports,bootloader,noarchive}] [--optimize LEVEL]
+                   [--python-option PYTHON_OPTION] [-s] [--noupx] [--upx-exclude FILE] [-c] [-w]
+                   [--hide-console {minimize-early,minimize-late,hide-late,hide-early}]
+                   [-i <FILE.ico or FILE.exe,ID or FILE.icns or Image or "NONE">] [--disable-windowed-traceback]
+                   [--version-file FILE] [--manifest <FILE or XML>] [-m <FILE or XML>] [-r RESOURCE] [--uac-admin]
+                   [--uac-uiaccess] [--argv-emulation] [--osx-bundle-identifier BUNDLE_IDENTIFIER]
+                   [--target-architecture ARCH] [--codesign-identity IDENTITY] [--osx-entitlements-file FILENAME]
+                   [--runtime-tmpdir PATH] [--bootloader-ignore-signals] [--distpath DIR] [--workpath WORKPATH] [-y]
+                   [--upx-dir UPX_DIR] [--clean] [--log-level LEVEL]
+                   scriptname [scriptname ...]
+pyinstaller: error: argument --add-data: Wrong syntax, should be --add-data=SOURCE:DEST
+PS C:\Users\cfppu\OneDrive\Escritorio\proyecto_final_version_2_mediapipe_cnn_svm_con_icono>
+
+
+& C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller --onefile --add-data=sign_data;sign_data --add-data=best_model.h5;. --add-data=classes.npy;. --add-data=scaler.pkl;. --add-data="C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;mediapipe/modules" --hidden-import=tensorflow --hidden-import=mediapipe --hidden-import=sklearn.preprocessing --hidden-import=PIL --windowed --name=KingSense inference_app.py
+
+PS C:\Users\cfppu\OneDrive\Escritorio\proyecto_final_version_2_mediapipe_cnn_svm_con_icono> & C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe -m PyInstaller --onefile --add-data=sign_data;sign_data --add-data=best_model.h5;. --add-data=classes.npy;. --add-data=scaler.pkl;. --add-data="C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;mediapipe/modules" --hidden-import=tensorflow --hidden-import=mediapipe --hidden-import=sklearn.preprocessing --hidden-import=PIL --windowed --name=KingSense inference_app.py
+usage: pyinstaller [-h] [-v] [-D] [-F] [--specpath DIR] [-n NAME] [--contents-directory CONTENTS_DIRECTORY]
+                   [--add-data SOURCE:DEST] [--add-binary SOURCE:DEST] [-p DIR] [--hidden-import MODULENAME]
+                   [--collect-submodules MODULENAME] [--collect-data MODULENAME] [--collect-binaries MODULENAME]
+                   [--collect-all MODULENAME] [--copy-metadata PACKAGENAME] [--recursive-copy-metadata PACKAGENAME]
+                   [--additional-hooks-dir HOOKSPATH] [--runtime-hook RUNTIME_HOOKS] [--exclude-module EXCLUDES]
+                   [--splash IMAGE_FILE] [-d {all,imports,bootloader,noarchive}] [--optimize LEVEL]
+                   [--python-option PYTHON_OPTION] [-s] [--noupx] [--upx-exclude FILE] [-c] [-w]
+                   [--hide-console {hide-late,minimize-late,minimize-early,hide-early}]
+                   [-i <FILE.ico or FILE.exe,ID or FILE.icns or Image or "NONE">] [--disable-windowed-traceback]
+                   [--version-file FILE] [--manifest <FILE or XML>] [-m <FILE or XML>] [-r RESOURCE] [--uac-admin]
+                   [--uac-uiaccess] [--argv-emulation] [--osx-bundle-identifier BUNDLE_IDENTIFIER]
+                   [--target-architecture ARCH] [--codesign-identity IDENTITY] [--osx-entitlements-file FILENAME]
+                   [--runtime-tmpdir PATH] [--bootloader-ignore-signals] [--distpath DIR] [--workpath WORKPATH] [-y]
+                   [--upx-dir UPX_DIR] [--clean] [--log-level LEVEL]
+                   scriptname [scriptname ...]
+pyinstaller: error: argument --add-data: Wrong syntax, should be --add-data=SOURCE:DEST
+sign_data : El término 'sign_data' no se reconoce como nombre de un cmdlet, función, archivo de script o programa
+ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso, compruebe que dicha ruta
+es correcta e inténtelo de nuevo.
+En línea: 1 Carácter: 115
++ ... n.exe -m PyInstaller --onefile --add-data=sign_data;sign_data --add-d ...
++                                                         ~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (sign_data:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+. : El término '--add-data=classes.npy' no se reconoce como nombre de un cmdlet, función, archivo de script o programa
+ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso, compruebe que dicha ruta
+es correcta e inténtelo de nuevo.
+En línea: 1 Carácter: 152
++ ... a;sign_data --add-data=best_model.h5;. --add-data=classes.npy;. --add ...
++                                            ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (--add-data=classes.npy:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+. : El término '--add-data=scaler.pkl' no se reconoce como nombre de un cmdlet, función, archivo de script o programa
+ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso, compruebe que dicha ruta
+es correcta e inténtelo de nuevo.
+En línea: 1 Carácter: 177
++ ... est_model.h5;. --add-data=classes.npy;. --add-data=scaler.pkl;. --add ...
++                                             ~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (--add-data=scaler.pkl:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+. : El término '--add-data=C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;m
+ediapipe/modules' no se reconoce como nombre de un cmdlet, función, archivo de script o programa ejecutable. Compruebe
+si escribió correctamente el nombre o, si incluyó una ruta de acceso, compruebe que dicha ruta es correcta e inténtelo
+de nuevo.
+En línea: 1 Carácter: 201
++ ... caler.pkl;. --add-data="C:/Users/cfppu/AppData/Local/Programs/Python/ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (--add-data=C:/U...diapipe/modules:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+
+
+& 'C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe' -m PyInstaller --onefile `
+--add-data 'sign_data;sign_data' `
+--add-data 'best_model.h5;.' `
+--add-data 'classes.npy;.' `
+--add-data 'scaler.pkl;.' `
+--add-data 'C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;mediapipe/modules' `
+--hidden-import tensorflow `
+--hidden-import mediapipe `
+--hidden-import sklearn.preprocessing `
+--hidden-import PIL `
+--windowed `
+--icon=app.ico `
+--name KingSense `
+inference_app.py
+
+
+& 'C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe' -m PyInstaller --onefile --add-data 'sign_data;sign_data' --add-data 'best_model.h5;.' --add-data 'classes.npy;.' --add-data 'scaler.pkl;.' --add-data 'C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;mediapipe/modules' --hidden-import tensorflow --hidden-import mediapipe --hidden-import sklearn.preprocessing --hidden-import PIL --windowed --name KingSense inference_app.py
+
+
+
+& 'C:/Users/cfppu/AppData/Local/Programs/Python/Python310/python.exe' -m PyInstaller --onedir `
+--add-data "sign_data;sign_data" `
+--add-data "best_model.h5;." `
+--add-data "classes.npy;." `
+--add-data "scaler.pkl;." `
+--add-data "C:/Users/cfppu/AppData/Local/Programs/Python/Python310/Lib/site-packages/mediapipe/modules;mediapipe/modules" `
+--hidden-import tensorflow `
+--hidden-import mediapipe `
+--hidden-import sklearn.preprocessing `
+--hidden-import PIL `
+--windowed `
+--icon=app.ico `
+--name KingSense `
+inference_app.py
