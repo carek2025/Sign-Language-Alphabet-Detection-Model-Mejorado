@@ -180,3 +180,5 @@ inference_app.py
 --icon=app.ico `
 --name KingSense `
 inference_app.py
+
+#############___>Link del .exe pero se lleva toda la carpeta y se ejecuta el .exe de adentro,ya que ocupa un lugar donde llevar y crear los archivos de modelo:https://senatipe-my.sharepoint.com/:f:/g/personal/1560977_senati_pe/EhN65UU-o0xHrxIK_n3qkwwBiySxZ2FqzC6WiOhbbBn-hQ?e=XKYgmj------#############

@@ -781,7 +781,7 @@ mp_drawing = mp.solutions.drawing_utils
 hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.3, min_tracking_confidence=0.7)
 
 # Rutas
-BASE_DIR = r'C:\Users\cfppu\OneDrive\Escritorio\proyecto_final_version_2_mediapipe_cnn_svm'
+BASE_DIR = r'C:\Users\Laboratorio de Innov\Desktop\entre_1'
 DATA_DIR = os.path.join(BASE_DIR, 'sign_data')
 
 # Función para obtener el siguiente nombre de modelo
